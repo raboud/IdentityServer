@@ -10,11 +10,20 @@ namespace JavaScriptClient
     {
         public void ConfigureServices(IServiceCollection services)
         {
-        }
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+			});
+		}
 
-        public void Configure(IApplicationBuilder app)
+		public void Configure(IApplicationBuilder app)
         {
-            app.UseDefaultFiles();
+			app.UseCors("CorsPolicy");
+			app.UseDefaultFiles();
             app.UseStaticFiles();
         }
     }

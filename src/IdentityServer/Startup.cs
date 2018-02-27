@@ -53,7 +53,7 @@ namespace IdentityServer
 
 			services.AddMvc();
 
-			IIdentityServerBuilder b = services.AddIdentityServer(x => x.IssuerUri = "null")
+			IIdentityServerBuilder b = services.AddIdentityServer()
 				.AddAspNetIdentity<ApplicationUser>()
 				// this adds the config data from DB (clients, resources)
 				.AddConfigurationStore(options =>
@@ -86,11 +86,21 @@ namespace IdentityServer
             }
             else
             {
-                throw new Exception("need to configure key material");
+				b.AddDeveloperSigningCredential();
+				//                throw new Exception("need to configure key material");
 			}
 
 			services.AddSingleton<ApplicationDbContextSeed, ApplicationDbContextSeed>();
 			services.AddSingleton<ConfigurationDbContextSeed, ConfigurationDbContextSeed>();
+
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+			});
 
 			services.AddAuthentication()
                 .AddGoogle(options =>
@@ -130,7 +140,8 @@ namespace IdentityServer
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseStaticFiles();
+			app.UseCors("CorsPolicy");
+			app.UseStaticFiles();
             app.UseIdentityServer();
             app.UseMvcWithDefaultRoute();
         }

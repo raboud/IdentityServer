@@ -22,11 +22,21 @@ namespace Api
 
                     options.ApiName = "api1";
                 });
-        }
+
+			services.AddCors(options =>
+			{
+				options.AddPolicy("CorsPolicy",
+					builder => builder.AllowAnyOrigin()
+					.AllowAnyMethod()
+					.AllowAnyHeader()
+					.AllowCredentials());
+			});
+		}
 
         public void Configure(IApplicationBuilder app)
         {
-            app.UseAuthentication();
+			app.UseCors("CorsPolicy");
+			app.UseAuthentication();
 
             app.UseMvc();
         }
