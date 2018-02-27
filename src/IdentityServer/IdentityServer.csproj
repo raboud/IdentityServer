@@ -5,12 +5,6 @@
     <UserSecretsId>aspnet-IdentityServerWithAspNetIdentity-04C6939F-E672-4E56-B4A5-5F064EB67F23</UserSecretsId>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="bower_components\bootstrap\dist\css\bootstrap.css">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.1" />
@@ -32,19 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="bower_components\bootstrap\dist\css\bootstrap.css.map" />
-    <None Include="bower_components\bootstrap\dist\js\bootstrap.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="bower_components\bootstrap\dist\js\bootstrap.js.map" />
-    <None Include="bower_components\jQuery\dist\jquery.js">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="bower_components\jQuery\dist\jquery.min.js" />
-    <None Include="bower_components\jQuery\dist\jquery.min.map" />
-    <None Include="bower_components\jQuery\dist\jquery.slim.js" />
-    <None Include="bower_components\jQuery\dist\jquery.slim.min.js" />
-    <None Include="bower_components\jQuery\dist\jquery.slim.min.map" />
     <None Include="wwwroot\favicon.ico" />
     <None Include="wwwroot\icon.jpg" />
     <None Include="wwwroot\icon.png" />
