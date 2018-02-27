@@ -52,7 +52,7 @@ namespace XUnitTest
 		{
 			using (IdentityTestServer idServer = IdentityTestServer.CreateServer())
 			{
-				var token = await idServer.RequestResourceOwnerPasswordAsync("ro.client", "secret", "alice", "Pass123$", "api1");
+				var token = await idServer.RequestResourceOwnerPasswordAsync("ro.client", "secret", "alice", "P@ssword1234", "api1");
 				Assert.False(token.IsError);
 			}
 		}

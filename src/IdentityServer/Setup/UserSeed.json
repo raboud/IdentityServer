@@ -1,0 +1,33 @@
+﻿{
+	"roles": [
+		"admin",
+		"user"
+	],
+	"users": [
+			{
+				"Email": "BobSmith@email.com",
+				"UserName": "bob",
+				"PasswordHash": "Pass123$"
+			},
+			{
+				"Email": "AliceSmith@email.com",
+				"UserName": "alice",
+				"PasswordHash": "Pass123$"
+			}
+
+	],
+	"userRoles": [
+		{
+			"Email": "BobSmith@email.com",
+			"Role": "admin"
+		},
+		{
+			"Email": "BobSmith@email.com",
+			"Role": "user"
+		},
+		{
+			"Email": "AliceSmith@email.com",
+			"Role": "user"
+		}
+	]
+}

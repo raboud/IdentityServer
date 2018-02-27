@@ -54,8 +54,6 @@ namespace IdentityServer.Data
 
 				await CreateRoles(seed.Roles);
 				await CreateUsers(seed.Users);
-
-				await EnsureSeedData();
 				await AddRolesToUsers(seed.UserRoles);
 			}
 			catch (Exception ex)
@@ -73,7 +71,7 @@ namespace IdentityServer.Data
 
 		private async Task<UserSeed> GetSeedData()
 		{
-			string seedData = "{\"Roles\":[\"admin\",\"user\"],\"Users\":[{\"CardHolderName\":\"DemoUser\",\"CardNumber\":\"4012888888881881\",\"CardType\":1,\"City\":\"Redmond\",\"Country\":\"U.S.\",\"Email\":\"demouser@microsoft.com\",\"Expiration\":\"12/20\",\"LastName\":\"DemoLastName\",\"Name\":\"DemoUser\",\"PhoneNumber\":\"1234567890\",\"UserName\":\"demouser@microsoft.com\",\"ZipCode\":\"98052\",\"State\":\"WA\",\"Street\":\"15703 NE 61st Ct\",\"SecurityNumber\":\"535\",\"PasswordHash\":\"Pass@word1\"},{\"CardHolderName\":\"DemoAdmin\",\"CardNumber\":\"4012888888881881\",\"CardType\":1,\"City\":\"Redmond\",\"Country\":\"U.S.\",\"Email\":\"demoadmin@microsoft.com\",\"Expiration\":\"12/20\",\"LastName\":\"DemoLastName\",\"Name\":\"DemoAdmin\",\"PhoneNumber\":\"1234567890\",\"UserName\":\"demoadmin@microsoft.com\",\"ZipCode\":\"98052\",\"State\":\"WA\",\"Street\":\"15703 NE 61st Ct\",\"SecurityNumber\":\"535\",\"PasswordHash\":\"Pass@word1\"}],\"UserRoles\":[{\"Email\":\"demoadmin@microsoft.com\",\"Role\":\"admin\"},{\"Email\":\"demouser@microsoft.com\",\"Role\":\"user\"}]}";
+			string seedData = "{\"roles\":[\"admin\",\"user\"],\"users\":[{\"Email\":\"BobSmith@email.com\",\"UserName\":\"bob\",\"PasswordHash\":\"Pass123$\"},{\"Email\":\"AliceSmith@email.com\",\"UserName\":\"alice\",\"PasswordHash\":\"Pass123$\"}],\"userRoles\":[{\"Email\":\"BobSmith@email.com\",\"Role\":\"admin\"},{\"Email\":\"BobSmith@email.com\",\"Role\":\"user\"},{\"Email\":\"AliceSmith@email.com\",\"Role\":\"user\"}]}";
 
 			if (_settings.Value.UseCustomizationData)
 			{
@@ -141,83 +139,6 @@ namespace IdentityServer.Data
 			}
 		}
 
-
-		public async Task EnsureSeedData()
-		{
-			_logger.LogInformation("Seeding database...");
-
-			ApplicationUser alice = await _userManager.FindByNameAsync("alice");
-			if (alice == null)
-			{
-				alice = new ApplicationUser
-				{
-					UserName = "alice"
-				};
-				IdentityResult result = await _userManager.CreateAsync(alice, "Pass123$");
-				if (!result.Succeeded)
-				{
-					throw new Exception(result.Errors.First().Description);
-				}
-
-				result = await _userManager.AddClaimsAsync(alice, new Claim[]{
-							new Claim(JwtClaimTypes.Name, "Alice Smith"),
-							new Claim(JwtClaimTypes.GivenName, "Alice"),
-							new Claim(JwtClaimTypes.FamilyName, "Smith"),
-							new Claim(JwtClaimTypes.Email, "AliceSmith@email.com"),
-							new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-							new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-							new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json)
-						});
-				if (!result.Succeeded)
-				{
-					throw new Exception(result.Errors.First().Description);
-				}
-				_logger.LogInformation("alice created");
-			}
-			else
-			{
-				_logger.LogInformation("alice already exists");
-			}
-
-			ApplicationUser bob = _userManager.FindByNameAsync("bob").Result;
-			if (bob == null)
-			{
-				bob = new ApplicationUser
-				{
-					UserName = "bob",
-					EmailConfirmed = true,
-				};
-				IdentityResult result = await _userManager.CreateAsync(bob, "Pass123$");
-				if (!result.Succeeded)
-				{
-					throw new Exception(result.Errors.First().Description);
-				}
-
-				result = await _userManager.AddClaimsAsync(bob, new Claim[]{
-						new Claim(JwtClaimTypes.Name, "Bob Smith"),
-						new Claim(JwtClaimTypes.GivenName, "Bob"),
-						new Claim(JwtClaimTypes.FamilyName, "Smith"),
-						new Claim(JwtClaimTypes.Email, "BobSmith@email.com"),
-						new Claim(JwtClaimTypes.EmailVerified, "true", ClaimValueTypes.Boolean),
-						new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-						new Claim(JwtClaimTypes.Address, @"{ 'street_address': 'One Hacker Way', 'locality': 'Heidelberg', 'postal_code': 69118, 'country': 'Germany' }", IdentityServer4.IdentityServerConstants.ClaimValueTypes.Json),
-						new Claim("location", "somewhere")
-					});
-				if (!result.Succeeded)
-				{
-					throw new Exception(result.Errors.First().Description);
-				}
-				_logger.LogInformation("bob created");
-			}
-			else
-			{
-				_logger.LogInformation("bob already exists");
-			}
-
-
-
-			_logger.LogInformation("Done seeding database.");
-		}
 
 	}
 }

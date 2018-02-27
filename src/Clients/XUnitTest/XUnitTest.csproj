@@ -7,6 +7,20 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Identity\Setup\Config.json" />
+    <None Remove="Identity\Setup\UserSeed.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Identity\Setup\Config.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Identity\Setup\UserSeed.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="IdentityModel" Version="3.3.0" />
     <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.0.1" />
@@ -18,7 +32,6 @@
 
   <ItemGroup>
     <Folder Include="Api\" />
-    <Folder Include="Identity\Setup\" />
   </ItemGroup>
 
   <ItemGroup>

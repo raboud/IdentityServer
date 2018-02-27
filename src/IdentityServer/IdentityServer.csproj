@@ -5,6 +5,10 @@
     <UserSecretsId>aspnet-IdentityServerWithAspNetIdentity-04C6939F-E672-4E56-B4A5-5F064EB67F23</UserSecretsId>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="Setup\Config.json" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="4.2.1" />
@@ -26,13 +30,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Setup\Config.json" />
     <None Include="wwwroot\favicon.ico" />
     <None Include="wwwroot\icon.jpg" />
     <None Include="wwwroot\icon.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Setup\" />
     <Folder Include="wwwroot\Lib\" />
   </ItemGroup>
 

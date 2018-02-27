@@ -1,18 +1,28 @@
-﻿// Copyright (c) Brock Allen & Dominick Baier. All rights reserved.
-// Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
-
-using IdentityServer4;
+﻿using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace IdentityServer
+namespace IdentityServer.Data
 {
     public class Config
     {
-        // scopes define the resources in your system
-        public static IEnumerable<IdentityResource> GetIdentityResources()
+		public List<IdentityResource> IdentityResources { get; set; }
+		public List<ApiResource> ApiResources { get; set; }
+		public List<Client> Clients { get; set; }
+
+		public static Config Default()
+		{
+			Config config = new Config();
+			config.IdentityResources = GetIdentityResources();
+			config.ApiResources = GetApiResources();
+			config.Clients = GetClients();
+			return config;
+		}
+
+		// scopes define the resources in your system
+		private static List<IdentityResource> GetIdentityResources()
         {
             return new List<IdentityResource>
             {
@@ -21,7 +31,7 @@ namespace IdentityServer
             };
         }
 
-        public static IEnumerable<ApiResource> GetApiResources()
+        private static List<ApiResource> GetApiResources()
         {
             return new List<ApiResource>
             {
@@ -29,9 +39,8 @@ namespace IdentityServer
             };
         }
 
-
 		// clients want to access resources (aka scopes)
-		public static IEnumerable<Client> GetClients()
+		private static List<Client> GetClients()
         {
             // client credentials client
             return new List<Client>
@@ -86,7 +95,7 @@ namespace IdentityServer
                     },
                     AllowOfflineAccess = true
                 },
-				               // JavaScript Client
+				// JavaScript Client
                 new Client
 				{
 					ClientId = "js",
