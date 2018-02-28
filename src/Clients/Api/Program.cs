@@ -4,6 +4,8 @@
 using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Serilog;
 
 namespace Api
 {
@@ -18,7 +20,14 @@ namespace Api
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
+				.ConfigureAppConfiguration((builderContext, config) =>
+				{
+					config.AddEnvironmentVariables();
+				})
+				.UseSerilog((hostingContext, loggerConfiguration) =>
+					loggerConfiguration.ReadFrom.Configuration(hostingContext.Configuration)
+				)
+				.UseStartup<Startup>()
                 .Build();
     }
 }

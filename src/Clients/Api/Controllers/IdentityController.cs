@@ -4,6 +4,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Logging;
 
 namespace Api.Controllers
 {
@@ -11,10 +12,18 @@ namespace Api.Controllers
     [Authorize]
     public class IdentityController : ControllerBase
     {
-        [HttpGet]
+		private readonly ILogger<IdentityController> _logger;
+		public IdentityController(ILogger<IdentityController> logger)
+		{
+			this._logger = logger;
+
+		}
+
+		[HttpGet]
         public IActionResult Get()
         {
-            return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
+			this._logger.LogWarning("IdentityController - Get");
+			return new JsonResult(from c in User.Claims select new { c.Type, c.Value });
         }
     }
 }

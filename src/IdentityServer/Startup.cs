@@ -50,6 +50,11 @@ namespace IdentityServer
                 .AddDefaultTokenProviders();
 
 			services.Configure<AppSettings>(Configuration);
+			services.Configure<IISOptions>(iis =>
+			{
+				iis.AuthenticationDisplayName = "Windows";
+				iis.AutomaticAuthentication = false;
+			});
 
 			services.AddMvc();
 
